@@ -11,10 +11,10 @@ public class convert : MonoBehaviour
     {
         if(other.gameObject.tag == "bullet")
         {
+            Destroy(this.gameObject);
+            Destroy(other.gameObject);
             GameObject e = Instantiate(Player) as GameObject;
             e.transform.position = transform.position;
-            Destroy(other.gameObject);
-            Destroy(this.gameObject);
         }
 
         if(other.gameObject.name == "Ground")
