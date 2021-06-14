@@ -10,10 +10,10 @@ public class Gun : MonoBehaviour
     private GameObject[] enemies;
     public Transform closestEnemy;
     public bool enemyContact;
-    public float MobDistance = 4.0f;
-    public float fireRate = 15f;
+    public float MobDistance = 6.0f;
+    public float fireRate = 1f;
 
-    private float nextTimeToFire = 0f;
+    public float nextTimeToFire = 1f;
 
     // Start is called before the first frame update
     void Start()
@@ -29,11 +29,13 @@ public class Gun : MonoBehaviour
 
         float distance = Vector3.Distance(transform.position, closestEnemy.transform.position);
 
-        if (distance < MobDistance && Time.time >= nextTimeToFire)
+        if (distance < MobDistance && nextTimeToFire <= 0f)
         {
-            nextTimeToFire = Time.time + 1f / fireRate;
+            nextTimeToFire = 1f / fireRate;
             LaunchProjectile();
         }
+
+        nextTimeToFire -= Time.deltaTime;
     }
 
     private void LaunchProjectile()
