@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class convert : MonoBehaviour
 {
-    public GameObject bullet;
-    public GameObject Player;
+    public GameObject ghost;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -13,7 +12,7 @@ public class convert : MonoBehaviour
         {
             Destroy(this.gameObject);
             Destroy(other.gameObject);
-            GameObject e = Instantiate(Player) as GameObject;
+            GameObject e = Instantiate(ghost) as GameObject;
             e.transform.position = transform.position;
         }
 

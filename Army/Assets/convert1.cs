@@ -3,54 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Movement : MonoBehaviour
+public class convert1 : MonoBehaviour
 {
-    private NavMeshAgent Mob;
-
-    public GameObject Player;
-
     private GameObject[] enemies;
 
     public Transform closestEnemy;
 
-    public float MobDistance = 6.0f;
+    public GameObject Player;
+
+    public float mSpeed = 10.0f;
 
     // Start is called before the first frame update
     void Start()
     {
-        Mob = GetComponent<NavMeshAgent>();
-        closestEnemy = null;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        Player = GameObject.Find("Target");
-
         closestEnemy = getClosestEnemy();
 
-        float distance = Vector3.Distance(transform.position, closestEnemy.transform.position);
-
-        if (distance < MobDistance)
-        {
-            transform.LookAt(closestEnemy.transform);
-
-            Mob.SetDestination(Player.transform.position);
-        }
-
-        else
-        {
-            Vector3 dirToPlayer = transform.position - Player.transform.position;
-
-            Vector3 newPos = transform.position - dirToPlayer;
-
-            Mob.SetDestination(newPos);
-        }
+        transform.LookAt(closestEnemy.position);
+        transform.Translate(0.0f, 0.0f, mSpeed * Time.deltaTime);
     }
-
     public Transform getClosestEnemy()
     {
-        enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        enemies = GameObject.FindGameObjectsWithTag("Player");
         float closestDistance = Mathf.Infinity;
         Transform trans = null;
 
@@ -65,5 +44,14 @@ public class Movement : MonoBehaviour
             }
         }
         return trans;
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            Destroy(this.gameObject);
+            GameObject e = Instantiate(Player) as GameObject;
+            e.transform.position = transform.position;
+        }
     }
 }

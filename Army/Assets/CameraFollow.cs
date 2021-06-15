@@ -26,8 +26,6 @@ public class CameraFollow : MonoBehaviour
         transform.position = newPosition;
 
         cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, 40f + Mathf.Log(numberOfTargets,1.2f), Time.deltaTime);
-
-        Debug.Log(numberOfTargets);
     }
 
     Vector3 GetCenterPoint()

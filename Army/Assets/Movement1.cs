@@ -1,31 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
-public class Movement : MonoBehaviour
+public class Movement1 : MonoBehaviour
 {
-    private NavMeshAgent Mob;
-
-    public GameObject Player;
-
     private GameObject[] enemies;
 
     public Transform closestEnemy;
 
     public float MobDistance = 6.0f;
 
+    public FloatingJoystick moveJoystick;
+
     // Start is called before the first frame update
     void Start()
     {
-        Mob = GetComponent<NavMeshAgent>();
-        closestEnemy = null;
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        Player = GameObject.Find("Target");
+        float hoz = moveJoystick.Horizontal;
+        float ver = moveJoystick.Vertical;
 
         closestEnemy = getClosestEnemy();
 
@@ -35,19 +32,21 @@ public class Movement : MonoBehaviour
         {
             transform.LookAt(closestEnemy.transform);
 
-            Mob.SetDestination(Player.transform.position);
+            Vector3 direction = new Vector3(hoz, 0, ver).normalized;
+            transform.Translate(direction * 0.08f, Space.World);
         }
 
         else
         {
-            Vector3 dirToPlayer = transform.position - Player.transform.position;
+            Vector3 direction = new Vector3(hoz, 0, ver).normalized;
+            transform.Translate(direction * 0.08f, Space.World);
 
-            Vector3 newPos = transform.position - dirToPlayer;
+            Vector3 lookAtPosition = transform.position + direction;
 
-            Mob.SetDestination(newPos);
+            transform.LookAt(lookAtPosition);
         }
-    }
 
+    }
     public Transform getClosestEnemy()
     {
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
