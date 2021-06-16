@@ -15,10 +15,5 @@ public class convert : MonoBehaviour
             GameObject e = Instantiate(ghost) as GameObject;
             e.transform.position = transform.position;
         }
-
-        if(other.gameObject.name == "Ground")
-        {
-            Destroy(this.gameObject);
-        }
     }
 }

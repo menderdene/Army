@@ -24,33 +24,27 @@ public class Movement1 : MonoBehaviour
         float hoz = moveJoystick.Horizontal;
         float ver = moveJoystick.Vertical;
 
-        closestEnemy = getClosestEnemy();
+        Vector3 direction = new Vector3(hoz, 0, ver).normalized;
+        transform.Translate(direction * 0.08f, Space.World);
 
-        float distance = Vector3.Distance(transform.position, closestEnemy.transform.position);
+        Vector3 lookAtPosition = transform.position + direction;
 
-        if (distance < MobDistance)
+        transform.LookAt(lookAtPosition);
+
+        if(closestEnemy = getClosestEnemy())
         {
-            transform.LookAt(closestEnemy.transform);
+            float distance = Vector3.Distance(transform.position, closestEnemy.transform.position);
 
-            Vector3 direction = new Vector3(hoz, 0, ver).normalized;
-            transform.Translate(direction * 0.08f, Space.World);
+            if (distance < MobDistance)
+            {
+                transform.LookAt(closestEnemy.transform);
+            }
         }
-
-        else
-        {
-            Vector3 direction = new Vector3(hoz, 0, ver).normalized;
-            transform.Translate(direction * 0.08f, Space.World);
-
-            Vector3 lookAtPosition = transform.position + direction;
-
-            transform.LookAt(lookAtPosition);
-        }
-
     }
     public Transform getClosestEnemy()
     {
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        float closestDistance = Mathf.Infinity;
+        float closestDistance = 10f;
         Transform trans = null;
 
         foreach (GameObject go in enemies)

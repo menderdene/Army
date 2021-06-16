@@ -9,7 +9,6 @@ public class Gun : MonoBehaviour
     public float launchforce = 1000f;
     private GameObject[] enemies;
     public Transform closestEnemy;
-    public bool enemyContact;
     public float MobDistance = 6.0f;
     public float fireRate = 1f;
 
@@ -19,23 +18,24 @@ public class Gun : MonoBehaviour
     void Start()
     {
         closestEnemy = null;
-        enemyContact = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        closestEnemy = getClosestEnemy();
-
-        float distance = Vector3.Distance(transform.position, closestEnemy.transform.position);
-
-        if (distance < MobDistance && nextTimeToFire <= 0f)
+        if(closestEnemy = getClosestEnemy())
         {
-            nextTimeToFire = 1f / fireRate;
-            LaunchProjectile();
-        }
+            float distance = Vector3.Distance(transform.position, closestEnemy.transform.position);
 
-        nextTimeToFire -= Time.deltaTime;
+            if (distance < MobDistance && nextTimeToFire <= 0f)
+            {
+                nextTimeToFire = 1.0f;
+                nextTimeToFire = 1f / fireRate;
+                LaunchProjectile();
+            }
+
+            nextTimeToFire -= Time.deltaTime;
+        }
     }
 
     private void LaunchProjectile()
@@ -48,7 +48,7 @@ public class Gun : MonoBehaviour
     public Transform getClosestEnemy()
     {
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        float closestDistance = Mathf.Infinity;
+        float closestDistance = 10.0f;
         Transform trans = null;
 
         foreach (GameObject go in enemies)

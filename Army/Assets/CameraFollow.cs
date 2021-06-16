@@ -7,8 +7,6 @@ public class CameraFollow : MonoBehaviour
 {
     private GameObject[] targets;
 
-    private int numberOfTargets;
-
     public Vector3 offset;
 
     public Camera cam;

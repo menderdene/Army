@@ -5,46 +5,31 @@ using UnityEngine.AI;
 
 public class convert1 : MonoBehaviour
 {
-    private GameObject[] enemies;
+    private GameObject[] targets;
 
     public Transform closestEnemy;
 
     public GameObject Player;
 
+    public Camera cam;
+
     public float mSpeed = 10.0f;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
 
     // Update is called once per frame
     void Update()
     {
-        closestEnemy = getClosestEnemy();
+        targets = GameObject.FindGameObjectsWithTag("Player");
 
-        transform.LookAt(closestEnemy.position);
+        int numberOfTargets = targets.Length;
+
+        Vector3 centerPoint = GetCenterPoint();
+
+        Vector3 newPosition = centerPoint;
+
+        transform.LookAt(newPosition);
         transform.Translate(0.0f, 0.0f, mSpeed * Time.deltaTime);
     }
-    public Transform getClosestEnemy()
-    {
-        enemies = GameObject.FindGameObjectsWithTag("Player");
-        float closestDistance = Mathf.Infinity;
-        Transform trans = null;
-
-        foreach (GameObject go in enemies)
-        {
-            float currentDistance;
-            currentDistance = Vector3.Distance(transform.position, go.transform.position);
-            if (currentDistance < closestDistance)
-            {
-                closestDistance = currentDistance;
-                trans = go.transform;
-            }
-        }
-        return trans;
-    }
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
@@ -53,5 +38,15 @@ public class convert1 : MonoBehaviour
             GameObject e = Instantiate(Player) as GameObject;
             e.transform.position = transform.position;
         }
+    }
+    Vector3 GetCenterPoint()
+    {
+        var bounds = new Bounds(targets[0].transform.position, Vector3.zero);
+        for (int i = 0; i < 1; i++)
+        {
+            bounds.Encapsulate(targets[i].transform.position);
+        }
+
+        return bounds.center;
     }
 }

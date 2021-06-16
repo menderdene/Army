@@ -24,7 +24,7 @@ public class Spawn : MonoBehaviour
             xPos = Random.Range(-45, 45);
             zPos = Random.Range(-45, 45);
             Instantiate(Enemy, new Vector3(xPos, 1.58333f, zPos), Quaternion.identity);
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.01f);
             enemyCount += 1;
         }
     }
