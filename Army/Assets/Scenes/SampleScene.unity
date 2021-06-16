@@ -1151,7 +1151,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 06a956fd665711243b601302735b4c83, type: 2}
+  - {fileID: 2100000, guid: c3ba477a7a46f8d44b926e9c44baebac, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1583,7 +1583,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5634110391183959684, guid: 8dcb1cfb1bd0d34499be894804350dfe, type: 3}
       propertyPath: MobDistance
-      value: 8
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 5634110391183959684, guid: 8dcb1cfb1bd0d34499be894804350dfe, type: 3}
       propertyPath: moveJoystick
@@ -1635,7 +1635,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5634110391183959693, guid: 8dcb1cfb1bd0d34499be894804350dfe, type: 3}
       propertyPath: MobDistance
-      value: 8
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 5634110391183959693, guid: 8dcb1cfb1bd0d34499be894804350dfe, type: 3}
       propertyPath: launchforce

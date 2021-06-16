@@ -9,7 +9,7 @@ public class Gun : MonoBehaviour
     public float launchforce = 1000f;
     private GameObject[] enemies;
     public Transform closestEnemy;
-    public float MobDistance = 6.0f;
+    public float MobDistance = 12.0f;
     public float fireRate = 1f;
 
     public float nextTimeToFire = 1f;
@@ -17,13 +17,38 @@ public class Gun : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        closestEnemy = null;
+        InvokeRepeating("UpdateTarget", 0f, 0.5f);
+    }
+
+    void UpdateTarget()
+    {
+        enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        float shortestDistance = 15.0f;
+        GameObject nearestEnemy = null;
+        foreach (GameObject enemy in enemies)
+        {
+            float distanceToEnemy = Vector3.Distance(transform.position, enemy.transform.position);
+            if (distanceToEnemy < shortestDistance)
+            {
+                shortestDistance = distanceToEnemy;
+                nearestEnemy = enemy;
+            }
+        }
+
+        if (nearestEnemy != null && shortestDistance <= MobDistance)
+        {
+            closestEnemy = nearestEnemy.transform;
+        }
+        else
+        {
+            closestEnemy = null;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(closestEnemy = getClosestEnemy())
+        if(closestEnemy != null)
         {
             float distance = Vector3.Distance(transform.position, closestEnemy.transform.position);
 
@@ -43,24 +68,5 @@ public class Gun : MonoBehaviour
         var ProjectileInstances = Instantiate(projectileprefab, firepoint.position, firepoint.rotation);
 
         ProjectileInstances.AddForce(firepoint.forward * launchforce);
-    }
-
-    public Transform getClosestEnemy()
-    {
-        enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        float closestDistance = 10.0f;
-        Transform trans = null;
-
-        foreach (GameObject go in enemies)
-        {
-            float currentDistance;
-            currentDistance = Vector3.Distance(transform.position, go.transform.position);
-            if (currentDistance < closestDistance)
-            {
-                closestDistance = currentDistance;
-                trans = go.transform;
-            }
-        }
-        return trans;
     }
 }

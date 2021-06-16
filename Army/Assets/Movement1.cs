@@ -8,14 +8,39 @@ public class Movement1 : MonoBehaviour
 
     public Transform closestEnemy;
 
-    public float MobDistance = 6.0f;
+    public float MobDistance = 12.0f;
 
     public FloatingJoystick moveJoystick;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        InvokeRepeating("UpdateTarget", 0f, 0.5f);
+    }
+
+    void UpdateTarget()
+    {
+        enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        float shortestDistance = 15.0f;
+        GameObject nearestEnemy = null;
+        foreach (GameObject enemy in enemies)
+        {
+            float distanceToEnemy = Vector3.Distance(transform.position, enemy.transform.position);
+            if(distanceToEnemy < shortestDistance)
+            {
+                shortestDistance = distanceToEnemy;
+                nearestEnemy = enemy;
+            }
+        }
+
+        if(nearestEnemy != null && shortestDistance <= MobDistance)
+        {
+            closestEnemy = nearestEnemy.transform;
+        }
+        else
+        {
+            closestEnemy = null;
+        }
     }
 
     // Update is called once per frame
@@ -31,32 +56,9 @@ public class Movement1 : MonoBehaviour
 
         transform.LookAt(lookAtPosition);
 
-        if(closestEnemy = getClosestEnemy())
-        {
-            float distance = Vector3.Distance(transform.position, closestEnemy.transform.position);
+        if (closestEnemy == null)
+            return;
 
-            if (distance < MobDistance)
-            {
-                transform.LookAt(closestEnemy.transform);
-            }
-        }
-    }
-    public Transform getClosestEnemy()
-    {
-        enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        float closestDistance = 10f;
-        Transform trans = null;
-
-        foreach (GameObject go in enemies)
-        {
-            float currentDistance;
-            currentDistance = Vector3.Distance(transform.position, go.transform.position);
-            if (currentDistance < closestDistance)
-            {
-                closestDistance = currentDistance;
-                trans = go.transform;
-            }
-        }
-        return trans;
+        transform.LookAt(closestEnemy);
     }
 }
